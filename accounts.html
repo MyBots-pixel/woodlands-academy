@@ -254,13 +254,13 @@
       });
     });
 
-    function teacherLogin() {
-      alert("Teacher login will be connected next.");
-    }
+   async function teacherLogin() {
+  await Clerk.openSignIn();
+}
 
-    function studentLogin() {
-      alert("Student login will be connected next.");
-    }
+async function studentLogin() {
+  await Clerk.openSignIn();
+}
   </script>
 <script
   defer
