@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Accounts · Woodlands Academy</title>
 
   <style>
@@ -19,19 +20,31 @@
     body {
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
+
       background:
-        radial-gradient(circle at top left, rgba(45, 93, 170, 0.25), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(76, 44, 140, 0.2), transparent 35%),
+        radial-gradient(
+          circle at top left,
+          rgba(45, 93, 170, 0.25),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at bottom right,
+          rgba(76, 44, 140, 0.2),
+          transparent 35%
+        ),
         #07111f;
+
       color: #ffffff;
 
       display: flex;
       align-items: center;
       justify-content: center;
+
       padding: 24px;
 
       opacity: 0;
       transform: translateY(8px);
+
       transition:
         opacity .35s ease,
         transform .35s ease;
@@ -60,15 +73,27 @@
     .badge {
       width: 68px;
       height: 68px;
+
       margin: 0 auto 18px;
+
       border-radius: 20px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       font-size: 24px;
       font-weight: 800;
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      box-shadow: 0 15px 40px rgba(59, 130, 246, 0.25);
+
+      background:
+        linear-gradient(
+          135deg,
+          #3b82f6,
+          #6366f1
+        );
+
+      box-shadow:
+        0 15px 40px rgba(59, 130, 246, 0.25);
     }
 
     h1 {
@@ -89,26 +114,49 @@
 
     .card {
       background: rgba(15, 28, 48, 0.88);
+
       border: 1px solid rgba(255, 255, 255, 0.08);
+
       border-radius: 26px;
+
       padding: 32px;
-      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+
+      box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.25);
+
+      transition:
+        transform .25s ease,
+        border-color .25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+
+      border-color:
+        rgba(255, 255, 255, 0.14);
     }
 
     .icon {
       width: 58px;
       height: 58px;
+
       border-radius: 17px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       font-size: 27px;
+
       margin-bottom: 22px;
-      background: rgba(59, 130, 246, 0.15);
+
+      background:
+        rgba(59, 130, 246, 0.15);
     }
 
     .student .icon {
-      background: rgba(34, 197, 94, 0.14);
+      background:
+        rgba(34, 197, 94, 0.14);
     }
 
     h2 {
@@ -118,48 +166,102 @@
 
     .description {
       color: #9eacc0;
+
       line-height: 1.6;
+
       margin-bottom: 25px;
     }
 
     button {
       width: 100%;
+
       border: 0;
+
       border-radius: 14px;
+
       padding: 15px 18px;
+
       font-size: 16px;
       font-weight: 700;
-      color: white;
-      cursor: pointer;
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
 
-    .student button {
-      background: linear-gradient(135deg, #16a34a, #22c55e);
+      color: white;
+
+      cursor: pointer;
+
+      background:
+        linear-gradient(
+          135deg,
+          #3b82f6,
+          #6366f1
+        );
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
     }
 
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.25);
+
+      box-shadow:
+        0 12px 30px rgba(59, 130, 246, 0.25);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+
+    .student button {
+      background:
+        linear-gradient(
+          135deg,
+          #16a34a,
+          #22c55e
+        );
     }
 
     .student button:hover {
-      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.2);
+      box-shadow:
+        0 12px 30px rgba(34, 197, 94, 0.2);
     }
 
     .back {
       display: block;
+
       text-align: center;
+
       margin-top: 28px;
+
       color: #91a1b7;
+
       text-decoration: none;
+
       font-size: 14px;
-      transition: color .2s ease;
+
+      transition:
+        color .2s ease;
     }
 
     .back:hover {
       color: white;
+    }
+
+    .status {
+      text-align: center;
+
+      margin-top: 18px;
+
+      min-height: 20px;
+
+      color: #91a1b7;
+
+      font-size: 13px;
     }
 
     @media (max-width: 700px) {
@@ -179,102 +281,407 @@
   <main class="container">
 
     <section class="top">
-      <div class="badge">WA</div>
 
-      <h1>Welcome back.</h1>
+      <div class="badge">
+        WA
+      </div>
+
+      <h1>
+        Welcome back.
+      </h1>
 
       <p class="subtitle">
         Choose your Woodlands Academy account
       </p>
+
     </section>
 
     <section class="cards">
 
       <article class="card teacher">
-        <div class="icon">👨‍🏫</div>
 
-        <h2>Teacher</h2>
+        <div class="icon">
+          👨‍🏫
+        </div>
+
+        <h2>
+          Teacher
+        </h2>
 
         <p class="description">
           Access the teacher portal, manage school information,
           create announcements and events, and configure Woody.
         </p>
 
-        <button onclick="teacherLogin()">
+        <button
+          id="teacherLoginButton"
+          onclick="teacherLogin()"
+        >
           Teacher Login
         </button>
+
       </article>
 
       <article class="card student">
-        <div class="icon">🎓</div>
 
-        <h2>Student</h2>
+        <div class="icon">
+          🎓
+        </div>
+
+        <h2>
+          Student
+        </h2>
 
         <p class="description">
           Access your student portal, view school information,
           check announcements and events, and ask Woody questions.
         </p>
 
-        <button onclick="studentLogin()">
+        <button
+          id="studentLoginButton"
+          onclick="studentLogin()"
+        >
           Student Login
         </button>
+
       </article>
 
     </section>
 
-    <a class="back page-link" href="index.html">
+    <div
+      id="status"
+      class="status"
+      aria-live="polite"
+    ></div>
+
+    <a
+      class="back page-link"
+      href="index.html"
+    >
       ← Back to Woodlands Academy
     </a>
 
   </main>
 
+
+  <!-- Clerk UI -->
+
+  <script
+    defer
+    crossorigin="anonymous"
+    src="https://funny-vervet-8500.clerk.accounts.dev/npm/@clerk/ui@1/dist/ui.browser.js"
+    type="text/javascript">
+  </script>
+
+  <script
+    defer
+    crossorigin="anonymous"
+    data-clerk-publishable-key="pk_test_ZnVubnktdmVydmV0LTg1MDAuY2xlcmsuYWNjb3VudHMuZGV2JA"
+    src="https://funny-vervet-8500.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"
+    type="text/javascript">
+  </script>
+
+
+  <!-- Page JavaScript -->
+
   <script>
+
+    let clerkReady = false;
+
+
+    /*
+      Page entrance animation
+    */
+
     window.addEventListener("DOMContentLoaded", () => {
+
       requestAnimationFrame(() => {
         document.body.classList.add("page-loaded");
       });
+
     });
 
-    document.querySelectorAll("a.page-link").forEach(link => {
-      link.addEventListener("click", event => {
-        const href = link.getAttribute("href");
 
-        if (!href || href.startsWith("#")) {
-          return;
+    /*
+      Wait for Clerk to load
+    */
+
+    window.addEventListener("load", async () => {
+
+      try {
+
+        if (!window.Clerk) {
+          throw new Error("Clerk did not load.");
         }
 
-        event.preventDefault();
+        await Clerk.load({
+          ui: {
+            ClerkUI: window.__internal_ClerkUICtor
+          }
+        });
 
-        document.body.classList.remove("page-loaded");
-        document.body.classList.add("page-leaving");
+        clerkReady = true;
 
-        setTimeout(() => {
-          window.location.href = href;
-        }, 350);
-      });
+        console.log("Woodlands Academy: Clerk loaded successfully.");
+
+        /*
+          If the user is already signed in,
+          send them to the appropriate portal later.
+        */
+
+        if (Clerk.isSignedIn) {
+
+          console.log(
+            "User is already signed in."
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Woodlands Academy: Clerk failed to load.",
+          error
+        );
+
+        document.getElementById("status").textContent =
+          "Authentication could not be loaded. Please refresh the page.";
+
+      }
+
     });
 
-   async function teacherLogin() {
-  await Clerk.openSignIn();
-}
 
-async function studentLogin() {
-  await Clerk.openSignIn();
-}
+    /*
+      Teacher login
+    */
+
+    async function teacherLogin() {
+
+      const button =
+        document.getElementById(
+          "teacherLoginButton"
+        );
+
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+
+      if (!clerkReady) {
+
+        status.textContent =
+          "Loading secure sign-in...";
+
+        /*
+          Give Clerk a moment if the
+          page has only just loaded.
+        */
+
+        let attempts = 0;
+
+        const waitForClerk =
+          setInterval(async () => {
+
+            attempts++;
+
+            if (clerkReady) {
+
+              clearInterval(waitForClerk);
+
+              status.textContent = "";
+
+              try {
+
+                await Clerk.openSignIn();
+
+              } catch (error) {
+
+                console.error(error);
+
+                status.textContent =
+                  "Unable to open sign-in.";
+
+              }
+
+            }
+
+            if (attempts >= 50) {
+
+              clearInterval(waitForClerk);
+
+              status.textContent =
+                "Clerk is taking too long to load. Please refresh.";
+
+            }
+
+          }, 100);
+
+        return;
+      }
+
+
+      button.disabled = true;
+
+      try {
+
+        await Clerk.openSignIn();
+
+      } catch (error) {
+
+        console.error(
+          "Teacher sign-in error:",
+          error
+        );
+
+        status.textContent =
+          "Unable to open sign-in.";
+
+      } finally {
+
+        button.disabled = false;
+
+      }
+
+    }
+
+
+    /*
+      Student login
+    */
+
+    async function studentLogin() {
+
+      const button =
+        document.getElementById(
+          "studentLoginButton"
+        );
+
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+
+      if (!clerkReady) {
+
+        status.textContent =
+          "Loading secure sign-in...";
+
+        let attempts = 0;
+
+        const waitForClerk =
+          setInterval(async () => {
+
+            attempts++;
+
+            if (clerkReady) {
+
+              clearInterval(waitForClerk);
+
+              status.textContent = "";
+
+              try {
+
+                await Clerk.openSignIn();
+
+              } catch (error) {
+
+                console.error(error);
+
+                status.textContent =
+                  "Unable to open sign-in.";
+
+              }
+
+            }
+
+            if (attempts >= 50) {
+
+              clearInterval(waitForClerk);
+
+              status.textContent =
+                "Clerk is taking too long to load. Please refresh.";
+
+            }
+
+          }, 100);
+
+        return;
+      }
+
+
+      button.disabled = true;
+
+      try {
+
+        await Clerk.openSignIn();
+
+      } catch (error) {
+
+        console.error(
+          "Student sign-in error:",
+          error
+        );
+
+        status.textContent =
+          "Unable to open sign-in.";
+
+      } finally {
+
+        button.disabled = false;
+
+      }
+
+    }
+
+
+    /*
+      Smooth page transition
+    */
+
+    document
+      .querySelectorAll("a.page-link")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          event => {
+
+            const href =
+              link.getAttribute("href");
+
+            if (
+              !href ||
+              href.startsWith("#")
+            ) {
+              return;
+            }
+
+            event.preventDefault();
+
+            document.body.classList.remove(
+              "page-loaded"
+            );
+
+            document.body.classList.add(
+              "page-leaving"
+            );
+
+            setTimeout(() => {
+
+              window.location.href =
+                href;
+
+            }, 350);
+
+          }
+        );
+
+      });
+
   </script>
-<script
-  defer
-  crossorigin="anonymous"
-  src="https://funny-vervet-8500.clerk.accounts.dev/npm/@clerk/ui@1/dist/ui.browser.js"
-  type="text/javascript">
-</script>
 
-<script
-  defer
-  crossorigin="anonymous"
-  data-clerk-publishable-key="pk_test_ZnVubnktdmVydmV0LTg1MDAuY2xlcmsuYWNjb3VudHMuZGV2JA"
-  src="https://funny-vervet-8500.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"
-  type="text/javascript">
-</script>
 </body>
 </html>
