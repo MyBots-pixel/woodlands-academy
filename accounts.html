@@ -73,7 +73,6 @@
     .badge {
       width: 68px;
       height: 68px;
-
       margin: 0 auto 18px;
 
       border-radius: 20px;
@@ -214,7 +213,7 @@
 
     button:disabled {
       cursor: wait;
-      opacity: 0.65;
+      opacity: .65;
     }
 
     .student button {
@@ -244,8 +243,7 @@
 
       font-size: 14px;
 
-      transition:
-        color .2s ease;
+      transition: color .2s ease;
     }
 
     .back:hover {
@@ -264,26 +262,6 @@
       font-size: 13px;
     }
 
-    /*
-      Clerk modal spacing fix
-    */
-
-    .cl-card {
-      overflow: visible !important;
-    }
-
-    .cl-header {
-      padding-right: 55px !important;
-    }
-
-    .cl-headerTitle {
-      padding-right: 15px !important;
-    }
-
-    .cl-modalCloseButton {
-      z-index: 20 !important;
-    }
-
     @media (max-width: 700px) {
 
       .cards {
@@ -295,7 +273,6 @@
       }
 
     }
-
   </style>
 </head>
 
@@ -391,7 +368,7 @@
   </main>
 
 
-  <!-- Clerk -->
+  <!-- Clerk UI -->
 
   <script
     defer
@@ -415,7 +392,7 @@
 
 
     /*
-      Page entrance animation
+      Page animation
     */
 
     window.addEventListener(
@@ -445,19 +422,36 @@
         try {
 
           if (!window.Clerk) {
-
             throw new Error(
               "Clerk did not load."
             );
-
           }
 
 
           await Clerk.load({
 
-            ui: {
-              ClerkUI:
-                window.__internal_ClerkUICtor
+            appearance: {
+
+              elements: {
+
+                /*
+                  Hide the close button
+                */
+
+                modalCloseButton: {
+                  display: "none"
+                },
+
+                /*
+                  Hide the show-password button
+                */
+
+                formFieldInputShowPasswordButton: {
+                  display: "none"
+                }
+
+              }
+
             }
 
           });
@@ -465,16 +459,15 @@
 
           clerkReady = true;
 
-
           console.log(
-            "Woodlands Academy: Clerk loaded successfully."
+            "Woodlands Academy: Clerk loaded."
           );
 
 
         } catch (error) {
 
           console.error(
-            "Woodlands Academy: Clerk failed to load.",
+            "Clerk failed to load:",
             error
           );
 
@@ -482,7 +475,7 @@
           document.getElementById(
             "status"
           ).textContent =
-            "Authentication could not be loaded. Please refresh the page.";
+            "Authentication could not be loaded. Please refresh.";
 
         }
 
@@ -491,7 +484,7 @@
 
 
     /*
-      Teacher login
+      Teacher Login
     */
 
     async function teacherLogin() {
@@ -507,64 +500,6 @@
         status.textContent =
           "Loading secure sign-in...";
 
-
-        let attempts = 0;
-
-
-        const waitForClerk =
-          setInterval(
-            async () => {
-
-              attempts++;
-
-
-              if (clerkReady) {
-
-                clearInterval(
-                  waitForClerk
-                );
-
-
-                status.textContent = "";
-
-
-                try {
-
-                  await Clerk.openSignIn();
-
-                } catch (error) {
-
-                  console.error(
-                    "Teacher sign-in error:",
-                    error
-                  );
-
-
-                  status.textContent =
-                    "Unable to open sign-in.";
-
-                }
-
-              }
-
-
-              if (attempts >= 50) {
-
-                clearInterval(
-                  waitForClerk
-                );
-
-
-                status.textContent =
-                  "Clerk is taking too long to load. Please refresh.";
-
-              }
-
-            },
-            100
-          );
-
-
         return;
 
       }
@@ -572,7 +507,12 @@
 
       try {
 
-        await Clerk.openSignIn();
+        await Clerk.openSignIn({
+
+          signInForceRedirectUrl:
+            "/teacher-dashboard.html"
+
+        });
 
       } catch (error) {
 
@@ -581,9 +521,8 @@
           error
         );
 
-
         status.textContent =
-          "Unable to open sign-in.";
+          "Unable to open teacher sign-in.";
 
       }
 
@@ -591,7 +530,7 @@
 
 
     /*
-      Student login
+      Student Login
     */
 
     async function studentLogin() {
@@ -607,64 +546,6 @@
         status.textContent =
           "Loading secure sign-in...";
 
-
-        let attempts = 0;
-
-
-        const waitForClerk =
-          setInterval(
-            async () => {
-
-              attempts++;
-
-
-              if (clerkReady) {
-
-                clearInterval(
-                  waitForClerk
-                );
-
-
-                status.textContent = "";
-
-
-                try {
-
-                  await Clerk.openSignIn();
-
-                } catch (error) {
-
-                  console.error(
-                    "Student sign-in error:",
-                    error
-                  );
-
-
-                  status.textContent =
-                    "Unable to open sign-in.";
-
-                }
-
-              }
-
-
-              if (attempts >= 50) {
-
-                clearInterval(
-                  waitForClerk
-                );
-
-
-                status.textContent =
-                  "Clerk is taking too long to load. Please refresh.";
-
-              }
-
-            },
-            100
-          );
-
-
         return;
 
       }
@@ -672,7 +553,12 @@
 
       try {
 
-        await Clerk.openSignIn();
+        await Clerk.openSignIn({
+
+          signInForceRedirectUrl:
+            "/student-dashboard.html"
+
+        });
 
       } catch (error) {
 
@@ -681,9 +567,8 @@
           error
         );
 
-
         status.textContent =
-          "Unable to open sign-in.";
+          "Unable to open student sign-in.";
 
       }
 
@@ -714,9 +599,7 @@
               !href ||
               href.startsWith("#")
             ) {
-
               return;
-
             }
 
 
@@ -726,7 +609,6 @@
             document.body.classList.remove(
               "page-loaded"
             );
-
 
             document.body.classList.add(
               "page-leaving"
