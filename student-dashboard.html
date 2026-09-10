@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Student Portal — Woodlands Academy</title>
+
+  <script defer crossorigin="anonymous"
+    src="https://funny-vervet-8500.clerk.accounts.dev/npm/@clerk/ui@1/dist/ui.browser.js"
+    type="text/javascript"></script>
+
+  <script defer crossorigin="anonymous"
+    data-clerk-publishable-key="YOUR_PUBLISHABLE_KEY"
+    src="https://funny-vervet-8500.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"
+    type="text/javascript"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: #020617;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.16), transparent 32%),
+        radial-gradient(circle at 85% 80%, rgba(79, 70, 229, 0.12), transparent 30%),
+        #020617;
+
+      opacity: 0;
+      transform: translateY(7px);
+      transition: opacity 400ms ease, transform 400ms ease;
+    }
+
+    body.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .layout {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      width: 260px;
+      min-height: 100vh;
+      background: rgba(15, 23, 42, 0.96);
+      border-right: 1px solid rgba(148, 163, 184, 0.12);
+      padding: 22px 16px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 25px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .brand-text span {
+      display: block;
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .nav button {
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      width: 100%;
+      padding: 12px 13px;
+      border-radius: 12px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 180ms ease;
+    }
+
+    .nav button:hover {
+      background: rgba(59, 130, 246, 0.08);
+      color: #fff;
+    }
+
+    .nav button.active {
+      background: rgba(37, 99, 235, 0.16);
+      color: #fff;
+    }
+
+    .nav-icon {
+      width: 24px;
+      display: inline-block;
+      font-size: 15px;
+    }
+
+    .user-area {
+      margin-top: auto;
+      border-top: 1px solid rgba(148, 163, 184, 0.1);
+      padding-top: 16px;
+    }
+
+    .user-card {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(30, 41, 59, 0.7);
+      margin-bottom: 8px;
+    }
+
+    .user-role {
+      color: #60a5fa;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 5px;
+    }
+
+    .user-email {
+      color: #cbd5e1;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .signout {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      padding: 11px 12px;
+      border-radius: 11px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .signout:hover {
+      background: rgba(239, 68, 68, 0.08);
+      color: #f87171;
+    }
+
+    /* MAIN */
+
+    .main {
+      width: calc(100% - 260px);
+      margin-left: 260px;
+      min-height: 100vh;
+      padding: 32px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .mobile-menu {
+      display: none;
+      border: none;
+      background: rgba(15, 23, 42, .9);
+      color: #fff;
+      border: 1px solid rgba(148, 163, 184, .12);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .top-title h1 {
+      font-size: 28px;
+      letter-spacing: -.5px;
+    }
+
+    .top-title p {
+      color: #64748b;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .notification-button {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(148, 163, 184, .12);
+      background: rgba(15, 23, 42, .8);
+      border-radius: 13px;
+      color: #cbd5e1;
+      cursor: pointer;
+      position: relative;
+      font-size: 18px;
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #3b82f6;
+      display: none;
+    }
+
+    /* WELCOME */
+
+    .welcome {
+      padding: 30px;
+      border-radius: 24px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(37, 99, 235, .20),
+          rgba(30, 41, 59, .8)
+        );
+      border: 1px solid rgba(59, 130, 246, .15);
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome::after {
+      content: "🌳";
+      position: absolute;
+      right: 30px;
+      bottom: -12px;
+      font-size: 100px;
+      opacity: .08;
+    }
+
+    .welcome-label {
+      color: #60a5fa;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+
+    .welcome h2 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #94a3b8;
+      max-width: 650px;
+      line-height: 1.6;
+    }
+
+    /* GRID */
+
+    .section-title {
+      font-size: 17px;
+      margin: 28px 0 13px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, .82);
+      border: 1px solid rgba(148, 163, 184, .11);
+      border-radius: 18px;
+      padding: 21px;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(59, 130, 246, .3);
+    }
+
+    .card-icon {
+      font-size: 25px;
+      margin-bottom: 14px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 7px;
+    }
+
+    .card p {
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .card button {
+      margin-top: 17px;
+      border: none;
+      background: rgba(37, 99, 235, .13);
+      color: #60a5fa;
+      padding: 9px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .card button:hover {
+      background: rgba(37, 99, 235, .22);
+    }
+
+    /* EVENTS */
+
+    .events-container {
+      background: rgba(15, 23, 42, .82);
+      border: 1px solid rgba(148, 163, 184, .11);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .event {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(148, 163, 184, .08);
+    }
+
+    .event:last-child {
+      border-bottom: none;
+    }
+
+    .event-date {
+      width: 54px;
+      height: 54px;
+      border-radius: 13px;
+      background: rgba(37, 99, 235, .12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .event-date strong {
+      color: #60a5fa;
+      font-size: 18px;
+    }
+
+    .event-date span {
+      color: #64748b;
+      font-size: 9px;
+      text-transform: uppercase;
+    }
+
+    .event-info {
+      min-width: 0;
+    }
+
+    .event-info h3 {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .event-info p {
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    .empty-event {
+      padding: 35px 20px;
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    /* NOTIFICATIONS */
+
+    .notifications-container {
+      background: rgba(15, 23, 42, .82);
+      border: 1px solid rgba(148, 163, 184, .11);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .notification {
+      display: flex;
+      gap: 14px;
+      padding: 17px 20px;
+      border-bottom: 1px solid rgba(148, 163, 184, .08);
+    }
+
+    .notification:last-child {
+      border-bottom: none;
+    }
+
+    .notification-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: rgba(79, 70, 229, .13);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .notification h3 {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .notification p {
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .notification-time {
+      color: #475569;
+      font-size: 10px;
+      margin-top: 5px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 1000px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 250ms ease;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .topbar {
+        gap: 12px;
+      }
+
+      .top-title {
+        flex: 1;
+      }
+
+      .top-title h1 {
+        font-size: 22px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome {
+        padding: 24px;
+      }
+
+      .welcome h2 {
+        font-size: 25px;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .main {
+        padding: 15px;
+      }
+
+      .event {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+      <div class="brand">
+        <div class="brand-badge">WA</div>
+
+        <div class="brand-text">
+          <strong>Woodlands Academy</strong>
+          <span>Student Portal</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+
+        <button class="active">
+          <span class="nav-icon">⌂</span>
+          Dashboard
+        </button>
+
+        <button onclick="showMessage('Woody AI')">
+          <span class="nav-icon">🌳</span>
+          Woody AI
+        </button>
+
+        <button onclick="showMessage('Announcements')">
+          <span class="nav-icon">📢</span>
+          Announcements
+        </button>
+
+        <button onclick="showMessage('Events')">
+          <span class="nav-icon">📅</span>
+          Events
+        </button>
+
+        <button onclick="showMessage('School Information')">
+          <span class="nav-icon">🏫</span>
+          School Information
+        </button>
+
+        <button onclick="showMessage('Settings')">
+          <span class="nav-icon">⚙</span>
+          Settings
+        </button>
+
+      </nav>
+
+      <div class="user-area">
+
+        <div class="user-card">
+          <div class="user-role">Student</div>
+          <div class="user-email" id="userEmail">
+            Loading...
+          </div>
+        </div>
+
+        <button class="signout" onclick="signOut()">
+          ↪ Sign out
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+      <div class="topbar">
+
+        <button class="mobile-menu" onclick="toggleSidebar()">
+          ☰
+        </button>
+
+        <div class="top-title">
+          <h1>Student Dashboard</h1>
+          <p>Your Woodlands Academy student portal</p>
+        </div>
+
+        <button class="notification-button" onclick="scrollToNotifications()">
+          🔔
+          <span class="notification-dot" id="notificationDot"></span>
+        </button>
+
+      </div>
+
+
+      <!-- WELCOME -->
+
+      <section class="welcome">
+
+        <div class="welcome-label">
+          Woodlands Academy
+        </div>
+
+        <h2 id="welcomeName">
+          Welcome back
+        </h2>
+
+        <p>
+          Stay up to date with school events, announcements,
+          information and your personal Woodlands services.
+        </p>
+
+      </section>
+
+
+      <!-- QUICK ACCESS -->
+
+      <h2 class="section-title">
+        Quick Access
+      </h2>
+
+      <section class="cards">
+
+        <div class="card">
+          <div class="card-icon">🌳</div>
+          <h3>Woody AI</h3>
+          <p>
+            Ask Woody questions about Woodlands Academy
+            and get help finding school information.
+          </p>
+          <button onclick="showMessage('Woody AI')">
+            Open Woody
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📢</div>
+          <h3>Announcements</h3>
+          <p>
+            Keep up with important messages and updates
+            from Woodlands Academy.
+          </p>
+          <button onclick="showMessage('Announcements')">
+            View Announcements
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📅</div>
+          <h3>Events</h3>
+          <p>
+            See upcoming school events, activities and
+            important dates.
+          </p>
+          <button onclick="scrollToEvents()">
+            View Events
+          </button>
+        </div>
+
+      </section>
+
+
+      <!-- EVENTS -->
+
+      <h2 class="section-title" id="eventsTitle">
+        Upcoming Events
+      </h2>
+
+      <section class="events-container" id="events">
+
+        <div class="empty-event">
+          No upcoming events yet.
+        </div>
+
+      </section>
+
+
+      <!-- NOTIFICATIONS -->
+
+      <h2 class="section-title" id="notificationsTitle">
+        Notifications
+      </h2>
+
+      <section class="notifications-container" id="notifications">
+
+        <div class="notification">
+
+          <div class="notification-icon">
+            🌳
+          </div>
+
+          <div>
+            <h3>Welcome to Woodlands Academy</h3>
+
+            <p>
+              Your student portal is ready. New school
+              announcements and events will appear here.
+            </p>
+
+            <div class="notification-time">
+              Welcome notification
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <script>
+
+    let clerkReady = false;
+
+    /*
+      CLERK
+    */
+
+    window.addEventListener("load", async function () {
+
+      document.body.classList.add("loaded");
+
+      try {
+
+        if (!window.Clerk) {
+          throw new Error("Clerk did not load.");
+        }
+
+        await Clerk.load();
+
+        clerkReady = true;
+
+        if (!Clerk.isSignedIn) {
+          window.location.href = "accounts.html";
+          return;
+        }
+
+        const email =
+          Clerk.user?.primaryEmailAddress?.emailAddress || "Student";
+
+        document.getElementById("userEmail").textContent = email;
+
+        let name = "Welcome back";
+
+        if (Clerk.user?.firstName) {
+          name = "Welcome back, " + Clerk.user.firstName;
+        }
+
+        document.getElementById("welcomeName").textContent = name;
+
+      } catch (error) {
+
+        console.error("Clerk loading error:", error);
+
+        document.getElementById("userEmail").textContent =
+          "Unable to load account";
+
+      }
+
+    });
+
+
+    /*
+      SIGN OUT
+    */
+
+    async function signOut() {
+
+      if (!clerkReady) {
+        return;
+      }
+
+      try {
+
+        await Clerk.signOut();
+
+        window.location.href = "index.html";
+
+      } catch (error) {
+
+        console.error("Sign out error:", error);
+
+      }
+
+    }
+
+
+    /*
+      MOBILE SIDEBAR
+    */
+
+    function toggleSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+    }
+
+
+    /*
+      TEMPORARY BUTTON HANDLER
+    */
+
+    function showMessage(section) {
+
+      alert(section + " will be available soon.");
+
+    }
+
+
+    /*
+      SCROLLING
+    */
+
+    function scrollToEvents() {
+
+      document
+        .getElementById("eventsTitle")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+
+    function scrollToNotifications() {
+
+      document
+        .getElementById("notificationsTitle")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+
+  </script>
+
+</body>
+</html>
