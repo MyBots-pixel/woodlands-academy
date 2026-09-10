@@ -6,6 +6,7 @@
 
   <title>Accounts — Woodlands Academy</title>
 
+  <!-- Clerk UI -->
   <script
     defer
     crossorigin="anonymous"
@@ -13,6 +14,7 @@
     type="text/javascript">
   </script>
 
+  <!-- Clerk -->
   <script
     defer
     crossorigin="anonymous"
@@ -41,11 +43,6 @@
         radial-gradient(
           circle at 15% 10%,
           rgba(37, 99, 235, 0.20),
-          transparent 35%
-        ),
-        radial-gradient(
-          circle at 85% 90%,
-          rgba(79, 70, 229, 0.12),
           transparent 35%
         ),
         linear-gradient(
@@ -127,14 +124,9 @@
       padding: 32px;
       text-align: left;
 
-      background:
-        linear-gradient(
-          145deg,
-          rgba(15, 23, 42, 0.94),
-          rgba(17, 24, 39, 0.82)
-        );
+      background: rgba(15, 23, 42, 0.94);
 
-      border: 1px solid rgba(96, 165, 250, 0.14);
+      border: 1px solid rgba(148, 163, 184, 0.15);
 
       border-radius: 24px;
 
@@ -166,7 +158,7 @@
       margin-bottom: 25px;
     }
 
-    button {
+    .login-button {
       width: 100%;
 
       border: none;
@@ -174,12 +166,7 @@
 
       padding: 14px 18px;
 
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #3b82f6
-        );
+      background: #2563eb;
 
       color: #ffffff;
 
@@ -190,21 +177,20 @@
 
       transition:
         transform 180ms ease,
-        filter 180ms ease;
+        background 180ms ease;
     }
 
-    button:hover {
+    .login-button:hover {
+      background: #1d4ed8;
       transform: translateY(-2px);
-      filter: brightness(1.08);
     }
 
-    .student button {
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #4f46e5
-        );
+    .student .login-button {
+      background: #4f46e5;
+    }
+
+    .student .login-button:hover {
+      background: #4338ca;
     }
 
     .status {
@@ -235,29 +221,8 @@
     }
 
     /*
-      CLERK LOGIN CARD
-      Only the background/border are changed.
-      Clerk controls all text colours itself.
-    */
-
-    .cl-card {
-      background:
-        linear-gradient(
-          145deg,
-          #0f172a,
-          #111c36 55%,
-          #172554
-        ) !important;
-
-      border:
-        1px solid rgba(96, 165, 250, 0.28) !important;
-
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.35) !important;
-    }
-
-    /*
-      Remove Clerk show/hide password button.
+      Remove Clerk's password visibility button.
+      This does not change Clerk's colours or text.
     */
 
     .cl-formFieldInputShowPasswordButton {
@@ -306,6 +271,8 @@
 
     <div class="choices">
 
+      <!-- TEACHER -->
+
       <section class="choice">
 
         <div class="icon">
@@ -321,12 +288,16 @@
           Woody AI tools, announcements, events and school information.
         </p>
 
-        <button onclick="teacherLogin()">
+        <button
+          class="login-button"
+          onclick="teacherLogin()">
           Teacher Login
         </button>
 
       </section>
 
+
+      <!-- STUDENT -->
 
       <section class="choice student">
 
@@ -343,7 +314,9 @@
           Woody, school information, announcements and events.
         </p>
 
-        <button onclick="studentLogin()">
+        <button
+          class="login-button"
+          onclick="studentLogin()">
           Student Login
         </button>
 
@@ -351,9 +324,14 @@
 
     </div>
 
-    <div id="status" class="status"></div>
+    <div
+      id="status"
+      class="status">
+    </div>
 
-    <a class="back" href="index.html">
+    <a
+      class="back"
+      href="index.html">
       ← Back to Woodlands Academy
     </a>
 
@@ -364,6 +342,10 @@
 
     let clerkReady = false;
 
+
+    /*
+      LOAD CLERK
+    */
 
     window.addEventListener("load", async function () {
 
@@ -400,6 +382,10 @@
     });
 
 
+    /*
+      TEACHER LOGIN / SIGN UP
+    */
+
     async function teacherLogin() {
 
       if (!clerkReady) {
@@ -412,7 +398,15 @@
 
       try {
 
-        await Clerk.openSignIn();
+        await Clerk.openSignIn({
+
+          signInForceRedirectUrl:
+            "/teacher-dashboard.html",
+
+          signUpForceRedirectUrl:
+            "/teacher-dashboard.html"
+
+        });
 
       } catch (error) {
 
@@ -429,6 +423,10 @@
     }
 
 
+    /*
+      STUDENT LOGIN / SIGN UP
+    */
+
     async function studentLogin() {
 
       if (!clerkReady) {
@@ -441,7 +439,15 @@
 
       try {
 
-        await Clerk.openSignIn();
+        await Clerk.openSignIn({
+
+          signInForceRedirectUrl:
+            "/student-dashboard.html",
+
+          signUpForceRedirectUrl:
+            "/student-dashboard.html"
+
+        });
 
       } catch (error) {
 
