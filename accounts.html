@@ -37,25 +37,27 @@
 
     body {
       min-height: 100vh;
+
       font-family: Arial, Helvetica, sans-serif;
-      color: #ffffff;
+
+      color: white;
 
       background:
         radial-gradient(
           circle at 15% 10%,
-          rgba(37, 99, 235, 0.22),
+          rgba(37, 99, 235, 0.20),
           transparent 35%
         ),
         radial-gradient(
           circle at 85% 90%,
-          rgba(79, 70, 229, 0.16),
+          rgba(79, 70, 229, 0.12),
           transparent 35%
         ),
         linear-gradient(
           135deg,
-          #020617 0%,
+          #020617,
           #0f172a 55%,
-          #111827 100%
+          #111827
         );
 
       display: flex;
@@ -65,7 +67,8 @@
       padding: 24px;
 
       opacity: 0;
-      transform: translateY(8px);
+
+      transform: translateY(7px);
 
       transition:
         opacity 400ms ease,
@@ -106,24 +109,30 @@
       font-weight: 800;
 
       box-shadow:
-        0 20px 50px rgba(37, 99, 235, 0.25);
+        0 18px 45px rgba(37, 99, 235, 0.25);
     }
 
     h1 {
       font-size: clamp(34px, 6vw, 52px);
+
       margin-bottom: 10px;
+
       letter-spacing: -1px;
     }
 
     .subtitle {
       color: #94a3b8;
+
       font-size: 17px;
+
       margin-bottom: 42px;
     }
 
     .choices {
       display: grid;
+
       grid-template-columns: repeat(2, 1fr);
+
       gap: 22px;
     }
 
@@ -132,40 +141,46 @@
 
       text-align: left;
 
-      background: rgba(15, 23, 42, 0.82);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(15, 23, 42, 0.94),
+          rgba(17, 24, 39, 0.82)
+        );
 
-      border: 1px solid rgba(148, 163, 184, 0.15);
+      border: 1px solid rgba(96, 165, 250, 0.14);
 
       border-radius: 24px;
 
       transition:
         transform 220ms ease,
-        border-color 220ms ease,
-        box-shadow 220ms ease;
+        border-color 220ms ease;
     }
 
     .choice:hover {
-      transform: translateY(-5px);
+      transform: translateY(-4px);
 
-      border-color: rgba(59, 130, 246, 0.5);
-
-      box-shadow:
-        0 20px 45px rgba(0, 0, 0, 0.25);
+      border-color:
+        rgba(59, 130, 246, 0.45);
     }
 
     .icon {
       font-size: 38px;
+
       margin-bottom: 18px;
     }
 
     .choice h2 {
       font-size: 24px;
+
       margin-bottom: 10px;
     }
 
     .choice p {
       color: #94a3b8;
+
       line-height: 1.6;
+
       margin-bottom: 25px;
     }
 
@@ -173,35 +188,44 @@
       width: 100%;
 
       border: none;
+
       border-radius: 14px;
 
       padding: 14px 18px;
 
-      background: #2563eb;
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #3b82f6
+        );
 
       color: white;
 
       font-size: 15px;
+
       font-weight: 700;
 
       cursor: pointer;
 
       transition:
         transform 180ms ease,
-        background 180ms ease;
+        filter 180ms ease;
     }
 
     button:hover {
-      background: #1d4ed8;
       transform: translateY(-2px);
+
+      filter: brightness(1.08);
     }
 
     .student button {
-      background: #4f46e5;
-    }
-
-    .student button:hover {
-      background: #4338ca;
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #4f46e5
+        );
     }
 
     .status {
@@ -229,7 +253,59 @@
     }
 
     .back:hover {
-      color: #ffffff;
+      color: white;
+    }
+
+    /*
+      CLERK LOGIN STYLING
+
+      Subtle blue gradient.
+      No blur-heavy effects.
+      No slow animations.
+    */
+
+    .cl-card {
+      background:
+        linear-gradient(
+          145deg,
+          #0f172a 0%,
+          #111c36 55%,
+          #172554 100%
+        ) !important;
+
+      border:
+        1px solid rgba(96, 165, 250, 0.28) !important;
+
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.35) !important;
+    }
+
+    /*
+      Hide Clerk's show/hide password button.
+    */
+
+    .cl-formFieldInputShowPasswordButton {
+      display: none !important;
+    }
+
+    /*
+      Backup selectors for different Clerk versions.
+    */
+
+    button[aria-label*="Show password"],
+    button[aria-label*="Hide password"],
+    button[title*="Show password"],
+    button[title*="Hide password"] {
+      display: none !important;
+    }
+
+    /*
+      Keep Clerk text easy to read.
+    */
+
+    .cl-card,
+    .cl-card * {
+      color: inherit;
     }
 
     @media (max-width: 700px) {
@@ -336,7 +412,7 @@
 
 
     /*
-      PAGE LOAD
+      LOAD CLERK
     */
 
     window.addEventListener("load", async function () {
@@ -392,6 +468,8 @@
 
         await Clerk.openSignIn();
 
+        hidePasswordButton();
+
       } catch (error) {
 
         console.error(
@@ -425,6 +503,8 @@
 
         await Clerk.openSignIn();
 
+        hidePasswordButton();
+
       } catch (error) {
 
         console.error(
@@ -441,7 +521,63 @@
 
 
     /*
-      BACK BUTTON FADE
+      REMOVE PASSWORD BUTTON
+    */
+
+    function hidePasswordButton() {
+
+      const removeButtons = function () {
+
+        const buttons =
+          document.querySelectorAll("button");
+
+        buttons.forEach(function (button) {
+
+          const text =
+            (
+              button.getAttribute("aria-label") ||
+              button.getAttribute("title") ||
+              button.textContent ||
+              ""
+            ).toLowerCase();
+
+          if (
+            text.includes("show password") ||
+            text.includes("hide password")
+          ) {
+
+            button.style.display = "none";
+
+          }
+
+        });
+
+      };
+
+      removeButtons();
+
+      const observer =
+        new MutationObserver(removeButtons);
+
+      observer.observe(
+        document.body,
+        {
+          childList: true,
+          subtree: true
+        }
+      );
+
+      setTimeout(function () {
+
+        observer.disconnect();
+
+      }, 10000);
+
+    }
+
+
+    /*
+      BACK BUTTON
     */
 
     document.querySelectorAll("a").forEach(function (link) {
@@ -454,11 +590,13 @@
 
           event.preventDefault();
 
-          const destination = link.href;
+          const destination =
+            link.href;
 
           document.body.style.opacity = "0";
+
           document.body.style.transform =
-            "translateY(-8px)";
+            "translateY(-7px)";
 
           setTimeout(function () {
 
