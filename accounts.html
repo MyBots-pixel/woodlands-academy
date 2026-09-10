@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accounts · Woodlands Academy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(45, 93, 170, 0.25), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(76, 44, 140, 0.2), transparent 35%),
+        #07111f;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1050px;
+    }
+
+    .top {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .badge {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 18px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      box-shadow: 0 15px 40px rgba(59, 130, 246, 0.25);
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #9eacc0;
+      font-size: 16px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(15, 28, 48, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 26px;
+      padding: 32px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+    }
+
+    .icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 27px;
+      margin-bottom: 22px;
+      background: rgba(59, 130, 246, 0.15);
+    }
+
+    .student .icon {
+      background: rgba(34, 197, 94, 0.14);
+    }
+
+    h2 {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #9eacc0;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 15px 18px;
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .student button {
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.25);
+    }
+
+    .student button:hover {
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.2);
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 28px;
+      color: #91a1b7;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .back:hover {
+      color: white;
+    }
+
+    @media (max-width: 700px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <section class="top">
+      <div class="badge">WA</div>
+
+      <h1>Welcome back.</h1>
+
+      <p class="subtitle">
+        Choose your Woodlands Academy account
+      </p>
+    </section>
+
+    <section class="cards">
+
+      <article class="card teacher">
+        <div class="icon">👨‍🏫</div>
+
+        <h2>Teacher</h2>
+
+        <p class="description">
+          Access the teacher portal, manage school information,
+          create announcements and events, and configure Woody.
+        </p>
+
+        <button onclick="teacherLogin()">
+          Teacher Login
+        </button>
+      </article>
+
+      <article class="card student">
+        <div class="icon">🎓</div>
+
+        <h2>Student</h2>
+
+        <p class="description">
+          Access your student portal, view school information,
+          check announcements and events, and ask Woody questions.
+        </p>
+
+        <button onclick="studentLogin()">
+          Student Login
+        </button>
+      </article>
+
+    </section>
+
+    <a class="back" href="index.html">
+      ← Back to Woodlands Academy
+    </a>
+
+  </main>
+
+  <script>
+    function teacherLogin() {
+      alert("Teacher login will be connected next.");
+    }
+
+    function studentLogin() {
+      alert("Student login will be connected next.");
+    }
+  </script>
+
+</body>
+</html>
