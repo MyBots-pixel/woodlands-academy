@@ -12,6 +12,10 @@
       padding: 0;
     }
 
+    html {
+      background: #07111f;
+    }
+
     body {
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
@@ -20,6 +24,22 @@
         radial-gradient(circle at 15% 10%, rgba(37, 99, 235, .25), transparent 32%),
         radial-gradient(circle at 85% 85%, rgba(99, 102, 241, .2), transparent 32%),
         #07111f;
+
+      opacity: 0;
+      transform: translateY(8px);
+      transition:
+        opacity .35s ease,
+        transform .35s ease;
+    }
+
+    body.page-loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body.page-leaving {
+      opacity: 0;
+      transform: translateY(-8px);
     }
 
     header {
@@ -296,11 +316,11 @@
         </p>
 
         <div class="buttons">
-          <a href="accounts.html" class="button">
+          <a href="accounts.html" class="button page-link">
             Teacher Login
           </a>
 
-          <a href="accounts.html" class="button secondary">
+          <a href="accounts.html" class="button secondary page-link">
             Student Login
           </a>
         </div>
@@ -363,6 +383,38 @@
   <footer>
     Woodlands Academy · Woody AI · School Portal
   </footer>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      requestAnimationFrame(() => {
+        document.body.classList.add("page-loaded");
+      });
+    });
+
+    document.querySelectorAll("a[href]").forEach(link => {
+      link.addEventListener("click", event => {
+        const href = link.getAttribute("href");
+
+        if (
+          !href ||
+          href.startsWith("#") ||
+          href.startsWith("http") ||
+          link.target === "_blank"
+        ) {
+          return;
+        }
+
+        event.preventDefault();
+
+        document.body.classList.remove("page-loaded");
+        document.body.classList.add("page-leaving");
+
+        setTimeout(() => {
+          window.location.href = href;
+        }, 350);
+      });
+    });
+  </script>
 
 </body>
 </html>
