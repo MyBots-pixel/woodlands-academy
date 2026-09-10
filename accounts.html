@@ -6,6 +6,7 @@
 
   <title>Accounts — Woodlands Academy</title>
 
+  <!-- Clerk UI -->
   <script
     defer
     crossorigin="anonymous"
@@ -13,6 +14,7 @@
     type="text/javascript">
   </script>
 
+  <!-- Clerk -->
   <script
     defer
     crossorigin="anonymous"
@@ -28,17 +30,51 @@
       padding: 0;
     }
 
+    html,
+    body {
+      min-height: 100%;
+    }
+
     body {
       min-height: 100vh;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #ffffff;
+
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.2), transparent 35%),
-        linear-gradient(135deg, #020617, #0f172a 55%, #111827);
-      color: white;
+        radial-gradient(
+          circle at 15% 10%,
+          rgba(37, 99, 235, 0.22),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 85% 90%,
+          rgba(79, 70, 229, 0.16),
+          transparent 35%
+        ),
+        linear-gradient(
+          135deg,
+          #020617 0%,
+          #0f172a 55%,
+          #111827 100%
+        );
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       padding: 24px;
+
+      opacity: 0;
+      transform: translateY(8px);
+
+      transition:
+        opacity 400ms ease,
+        transform 400ms ease;
+    }
+
+    body.loaded {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .container {
@@ -50,20 +86,33 @@
     .badge {
       width: 76px;
       height: 76px;
-      border-radius: 22px;
+
       margin: 0 auto 22px;
+
+      border-radius: 22px;
+
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #2563eb, #4f46e5);
-      font-size: 27px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #4f46e5
+        );
+
+      font-size: 26px;
       font-weight: 800;
-      box-shadow: 0 20px 50px rgba(37, 99, 235, 0.3);
+
+      box-shadow:
+        0 20px 50px rgba(37, 99, 235, 0.25);
     }
 
     h1 {
-      font-size: clamp(32px, 5vw, 52px);
+      font-size: clamp(34px, 6vw, 52px);
       margin-bottom: 10px;
+      letter-spacing: -1px;
     }
 
     .subtitle {
@@ -79,28 +128,39 @@
     }
 
     .choice {
-      border: 1px solid rgba(148, 163, 184, 0.16);
-      background: rgba(15, 23, 42, 0.8);
-      border-radius: 24px;
       padding: 32px;
+
       text-align: left;
-      transition: 0.25s ease;
+
+      background: rgba(15, 23, 42, 0.82);
+
+      border: 1px solid rgba(148, 163, 184, 0.15);
+
+      border-radius: 24px;
+
+      transition:
+        transform 220ms ease,
+        border-color 220ms ease,
+        box-shadow 220ms ease;
     }
 
     .choice:hover {
       transform: translateY(-5px);
+
       border-color: rgba(59, 130, 246, 0.5);
-      background: rgba(20, 32, 56, 0.95);
+
+      box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.25);
     }
 
     .icon {
-      font-size: 36px;
+      font-size: 38px;
       margin-bottom: 18px;
     }
 
     .choice h2 {
-      margin-bottom: 9px;
       font-size: 24px;
+      margin-bottom: 10px;
     }
 
     .choice p {
@@ -111,20 +171,29 @@
 
     button {
       width: 100%;
+
       border: none;
       border-radius: 14px;
+
       padding: 14px 18px;
+
       background: #2563eb;
+
       color: white;
+
       font-size: 15px;
       font-weight: 700;
+
       cursor: pointer;
-      transition: 0.2s ease;
+
+      transition:
+        transform 180ms ease,
+        background 180ms ease;
     }
 
     button:hover {
       background: #1d4ed8;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
 
     .student button {
@@ -136,31 +205,45 @@
     }
 
     .status {
-      margin-top: 20px;
-      color: #f87171;
       min-height: 22px;
+
+      margin-top: 20px;
+
+      color: #f87171;
+
       font-size: 14px;
     }
 
     .back {
       display: inline-block;
+
       margin-top: 30px;
+
       color: #94a3b8;
+
       text-decoration: none;
+
       font-size: 14px;
+
+      transition: color 180ms ease;
     }
 
     .back:hover {
-      color: white;
+      color: #ffffff;
     }
 
     @media (max-width: 700px) {
+
       .choices {
         grid-template-columns: 1fr;
       }
 
       .choice {
         padding: 26px;
+      }
+
+      h1 {
+        font-size: 36px;
       }
     }
   </style>
@@ -170,9 +253,13 @@
 
   <main class="container">
 
-    <div class="badge">WA</div>
+    <div class="badge">
+      WA
+    </div>
 
-    <h1>Welcome to Woodlands</h1>
+    <h1>
+      Welcome to Woodlands
+    </h1>
 
     <p class="subtitle">
       Choose your account type to continue.
@@ -180,10 +267,17 @@
 
     <div class="choices">
 
-      <section class="choice">
-        <div class="icon">👨‍🏫</div>
+      <!-- TEACHER -->
 
-        <h2>Teacher</h2>
+      <section class="choice">
+
+        <div class="icon">
+          👨‍🏫
+        </div>
+
+        <h2>
+          Teacher
+        </h2>
 
         <p>
           Access the Woodlands Academy teacher portal,
@@ -193,12 +287,21 @@
         <button onclick="teacherLogin()">
           Teacher Login
         </button>
+
       </section>
 
-      <section class="choice student">
-        <div class="icon">🎓</div>
 
-        <h2>Student</h2>
+      <!-- STUDENT -->
+
+      <section class="choice student">
+
+        <div class="icon">
+          🎓
+        </div>
+
+        <h2>
+          Student
+        </h2>
 
         <p>
           Sign in to your student account and access
@@ -208,23 +311,40 @@
         <button onclick="studentLogin()">
           Student Login
         </button>
+
       </section>
 
     </div>
 
-    <div id="status" class="status"></div>
+    <div
+      id="status"
+      class="status">
+    </div>
 
-    <a class="back" href="index.html">
+    <a
+      class="back"
+      href="index.html">
       ← Back to Woodlands Academy
     </a>
 
   </main>
 
+
   <script>
+
     let clerkReady = false;
 
-    window.addEventListener("load", async () => {
+
+    /*
+      PAGE LOAD
+    */
+
+    window.addEventListener("load", async function () {
+
+      document.body.classList.add("loaded");
+
       try {
+
         if (!window.Clerk) {
           throw new Error("Clerk did not load.");
         }
@@ -237,47 +357,122 @@
 
         clerkReady = true;
 
+        console.log("Clerk loaded successfully.");
+
       } catch (error) {
-        console.error(error);
+
+        console.error(
+          "Clerk loading error:",
+          error
+        );
 
         document.getElementById("status").textContent =
           "Unable to load the account system.";
+
       }
+
     });
 
+
+    /*
+      TEACHER LOGIN
+    */
+
     async function teacherLogin() {
+
       if (!clerkReady) {
+
         document.getElementById("status").textContent =
           "Account system is still loading. Please try again.";
+
         return;
       }
 
       try {
+
         await Clerk.openSignIn();
+
       } catch (error) {
-        console.error(error);
+
+        console.error(
+          "Teacher sign-in error:",
+          error
+        );
 
         document.getElementById("status").textContent =
           "Unable to open teacher sign in.";
+
       }
+
     }
 
+
+    /*
+      STUDENT LOGIN
+    */
+
     async function studentLogin() {
+
       if (!clerkReady) {
+
         document.getElementById("status").textContent =
           "Account system is still loading. Please try again.";
+
         return;
       }
 
       try {
+
         await Clerk.openSignIn();
+
       } catch (error) {
-        console.error(error);
+
+        console.error(
+          "Student sign-in error:",
+          error
+        );
 
         document.getElementById("status").textContent =
           "Unable to open student sign in.";
+
       }
+
     }
+
+
+    /*
+      BACK BUTTON FADE
+    */
+
+    document.querySelectorAll("a").forEach(function (link) {
+
+      link.addEventListener("click", function (event) {
+
+        if (
+          link.hostname === window.location.hostname
+        ) {
+
+          event.preventDefault();
+
+          const destination = link.href;
+
+          document.body.style.opacity = "0";
+          document.body.style.transform =
+            "translateY(-8px)";
+
+          setTimeout(function () {
+
+            window.location.href =
+              destination;
+
+          }, 400);
+
+        }
+
+      });
+
+    });
+
   </script>
 
 </body>
