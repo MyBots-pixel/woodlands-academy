@@ -264,7 +264,28 @@
       font-size: 13px;
     }
 
+    /*
+      Clerk modal spacing fix
+    */
+
+    .cl-card {
+      overflow: visible !important;
+    }
+
+    .cl-header {
+      padding-right: 55px !important;
+    }
+
+    .cl-headerTitle {
+      padding-right: 15px !important;
+    }
+
+    .cl-modalCloseButton {
+      z-index: 20 !important;
+    }
+
     @media (max-width: 700px) {
+
       .cards {
         grid-template-columns: 1fr;
       }
@@ -272,7 +293,9 @@
       .card {
         padding: 25px;
       }
+
     }
+
   </style>
 </head>
 
@@ -295,6 +318,7 @@
       </p>
 
     </section>
+
 
     <section class="cards">
 
@@ -322,6 +346,7 @@
 
       </article>
 
+
       <article class="card student">
 
         <div class="icon">
@@ -348,11 +373,13 @@
 
     </section>
 
+
     <div
       id="status"
       class="status"
       aria-live="polite"
     ></div>
+
 
     <a
       class="back page-link"
@@ -364,7 +391,7 @@
   </main>
 
 
-  <!-- Clerk UI -->
+  <!-- Clerk -->
 
   <script
     defer
@@ -382,8 +409,6 @@
   </script>
 
 
-  <!-- Page JavaScript -->
-
   <script>
 
     let clerkReady = false;
@@ -393,63 +418,76 @@
       Page entrance animation
     */
 
-    window.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener(
+      "DOMContentLoaded",
+      () => {
 
-      requestAnimationFrame(() => {
-        document.body.classList.add("page-loaded");
-      });
+        requestAnimationFrame(() => {
 
-    });
+          document.body.classList.add(
+            "page-loaded"
+          );
+
+        });
+
+      }
+    );
 
 
     /*
-      Wait for Clerk to load
+      Load Clerk
     */
 
-    window.addEventListener("load", async () => {
+    window.addEventListener(
+      "load",
+      async () => {
 
-      try {
+        try {
 
-        if (!window.Clerk) {
-          throw new Error("Clerk did not load.");
-        }
+          if (!window.Clerk) {
 
-        await Clerk.load({
-          ui: {
-            ClerkUI: window.__internal_ClerkUICtor
+            throw new Error(
+              "Clerk did not load."
+            );
+
           }
-        });
 
-        clerkReady = true;
 
-        console.log("Woodlands Academy: Clerk loaded successfully.");
+          await Clerk.load({
 
-        /*
-          If the user is already signed in,
-          send them to the appropriate portal later.
-        */
+            ui: {
+              ClerkUI:
+                window.__internal_ClerkUICtor
+            }
 
-        if (Clerk.isSignedIn) {
+          });
+
+
+          clerkReady = true;
+
 
           console.log(
-            "User is already signed in."
+            "Woodlands Academy: Clerk loaded successfully."
           );
+
+
+        } catch (error) {
+
+          console.error(
+            "Woodlands Academy: Clerk failed to load.",
+            error
+          );
+
+
+          document.getElementById(
+            "status"
+          ).textContent =
+            "Authentication could not be loaded. Please refresh the page.";
 
         }
 
-      } catch (error) {
-
-        console.error(
-          "Woodlands Academy: Clerk failed to load.",
-          error
-        );
-
-        document.getElementById("status").textContent =
-          "Authentication could not be loaded. Please refresh the page.";
-
       }
-
-    });
+    );
 
 
     /*
@@ -457,11 +495,6 @@
     */
 
     async function teacherLogin() {
-
-      const button =
-        document.getElementById(
-          "teacherLoginButton"
-        );
 
       const status =
         document.getElementById(
@@ -474,55 +507,68 @@
         status.textContent =
           "Loading secure sign-in...";
 
-        /*
-          Give Clerk a moment if the
-          page has only just loaded.
-        */
 
         let attempts = 0;
 
+
         const waitForClerk =
-          setInterval(async () => {
+          setInterval(
+            async () => {
 
-            attempts++;
+              attempts++;
 
-            if (clerkReady) {
 
-              clearInterval(waitForClerk);
+              if (clerkReady) {
 
-              status.textContent = "";
+                clearInterval(
+                  waitForClerk
+                );
 
-              try {
 
-                await Clerk.openSignIn();
+                status.textContent = "";
 
-              } catch (error) {
 
-                console.error(error);
+                try {
 
-                status.textContent =
-                  "Unable to open sign-in.";
+                  await Clerk.openSignIn();
+
+                } catch (error) {
+
+                  console.error(
+                    "Teacher sign-in error:",
+                    error
+                  );
+
+
+                  status.textContent =
+                    "Unable to open sign-in.";
+
+                }
 
               }
 
-            }
 
-            if (attempts >= 50) {
+              if (attempts >= 50) {
 
-              clearInterval(waitForClerk);
+                clearInterval(
+                  waitForClerk
+                );
 
-              status.textContent =
-                "Clerk is taking too long to load. Please refresh.";
 
-            }
+                status.textContent =
+                  "Clerk is taking too long to load. Please refresh.";
 
-          }, 100);
+              }
+
+            },
+            100
+          );
+
 
         return;
+
       }
 
-
-      button.disabled = true;
 
       try {
 
@@ -535,12 +581,9 @@
           error
         );
 
+
         status.textContent =
           "Unable to open sign-in.";
-
-      } finally {
-
-        button.disabled = false;
 
       }
 
@@ -553,11 +596,6 @@
 
     async function studentLogin() {
 
-      const button =
-        document.getElementById(
-          "studentLoginButton"
-        );
-
       const status =
         document.getElementById(
           "status"
@@ -569,50 +607,68 @@
         status.textContent =
           "Loading secure sign-in...";
 
+
         let attempts = 0;
 
+
         const waitForClerk =
-          setInterval(async () => {
+          setInterval(
+            async () => {
 
-            attempts++;
+              attempts++;
 
-            if (clerkReady) {
 
-              clearInterval(waitForClerk);
+              if (clerkReady) {
 
-              status.textContent = "";
+                clearInterval(
+                  waitForClerk
+                );
 
-              try {
 
-                await Clerk.openSignIn();
+                status.textContent = "";
 
-              } catch (error) {
 
-                console.error(error);
+                try {
 
-                status.textContent =
-                  "Unable to open sign-in.";
+                  await Clerk.openSignIn();
+
+                } catch (error) {
+
+                  console.error(
+                    "Student sign-in error:",
+                    error
+                  );
+
+
+                  status.textContent =
+                    "Unable to open sign-in.";
+
+                }
 
               }
 
-            }
 
-            if (attempts >= 50) {
+              if (attempts >= 50) {
 
-              clearInterval(waitForClerk);
+                clearInterval(
+                  waitForClerk
+                );
 
-              status.textContent =
-                "Clerk is taking too long to load. Please refresh.";
 
-            }
+                status.textContent =
+                  "Clerk is taking too long to load. Please refresh.";
 
-          }, 100);
+              }
+
+            },
+            100
+          );
+
 
         return;
+
       }
 
-
-      button.disabled = true;
 
       try {
 
@@ -625,12 +681,9 @@
           error
         );
 
+
         status.textContent =
           "Unable to open sign-in.";
-
-      } finally {
-
-        button.disabled = false;
 
       }
 
@@ -638,11 +691,13 @@
 
 
     /*
-      Smooth page transition
+      Smooth page transitions
     */
 
     document
-      .querySelectorAll("a.page-link")
+      .querySelectorAll(
+        "a.page-link"
+      )
       .forEach(link => {
 
         link.addEventListener(
@@ -650,31 +705,43 @@
           event => {
 
             const href =
-              link.getAttribute("href");
+              link.getAttribute(
+                "href"
+              );
+
 
             if (
               !href ||
               href.startsWith("#")
             ) {
+
               return;
+
             }
 
+
             event.preventDefault();
+
 
             document.body.classList.remove(
               "page-loaded"
             );
 
+
             document.body.classList.add(
               "page-leaving"
             );
 
-            setTimeout(() => {
 
-              window.location.href =
-                href;
+            setTimeout(
+              () => {
 
-            }, 350);
+                window.location.href =
+                  href;
+
+              },
+              350
+            );
 
           }
         );
@@ -685,19 +752,3 @@
 
 </body>
 </html>
-/* Clerk sign-in modal spacing fix */
-.cl-card {
-  overflow: visible !important;
-}
-
-.cl-header {
-  padding-right: 55px !important;
-}
-
-.cl-headerTitle {
-  padding-right: 15px !important;
-}
-
-.cl-modalCloseButton {
-  z-index: 20 !important;
-}
