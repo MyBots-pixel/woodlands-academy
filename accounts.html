@@ -6,7 +6,6 @@
 
   <title>Accounts — Woodlands Academy</title>
 
-  <!-- Clerk UI -->
   <script
     defer
     crossorigin="anonymous"
@@ -14,7 +13,6 @@
     type="text/javascript">
   </script>
 
-  <!-- Clerk -->
   <script
     defer
     crossorigin="anonymous"
@@ -30,17 +28,14 @@
       padding: 0;
     }
 
-    html,
-    body {
-      min-height: 100%;
+    html {
+      background: #020617;
     }
 
     body {
       min-height: 100vh;
-
       font-family: Arial, Helvetica, sans-serif;
-
-      color: white;
+      color: #ffffff;
 
       background:
         radial-gradient(
@@ -67,7 +62,6 @@
       padding: 24px;
 
       opacity: 0;
-
       transform: translateY(7px);
 
       transition:
@@ -98,12 +92,11 @@
       align-items: center;
       justify-content: center;
 
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #4f46e5
-        );
+      background: linear-gradient(
+        135deg,
+        #2563eb,
+        #4f46e5
+      );
 
       font-size: 26px;
       font-weight: 800;
@@ -114,31 +107,24 @@
 
     h1 {
       font-size: clamp(34px, 6vw, 52px);
-
       margin-bottom: 10px;
-
       letter-spacing: -1px;
     }
 
     .subtitle {
       color: #94a3b8;
-
       font-size: 17px;
-
       margin-bottom: 42px;
     }
 
     .choices {
       display: grid;
-
       grid-template-columns: repeat(2, 1fr);
-
       gap: 22px;
     }
 
     .choice {
       padding: 32px;
-
       text-align: left;
 
       background:
@@ -166,21 +152,17 @@
 
     .icon {
       font-size: 38px;
-
       margin-bottom: 18px;
     }
 
     .choice h2 {
       font-size: 24px;
-
       margin-bottom: 10px;
     }
 
     .choice p {
       color: #94a3b8;
-
       line-height: 1.6;
-
       margin-bottom: 25px;
     }
 
@@ -188,7 +170,6 @@
       width: 100%;
 
       border: none;
-
       border-radius: 14px;
 
       padding: 14px 18px;
@@ -200,10 +181,9 @@
           #3b82f6
         );
 
-      color: white;
+      color: #ffffff;
 
       font-size: 15px;
-
       font-weight: 700;
 
       cursor: pointer;
@@ -215,7 +195,6 @@
 
     button:hover {
       transform: translateY(-2px);
-
       filter: brightness(1.08);
     }
 
@@ -230,7 +209,6 @@
 
     .status {
       min-height: 22px;
-
       margin-top: 20px;
 
       color: #f87171;
@@ -253,24 +231,22 @@
     }
 
     .back:hover {
-      color: white;
+      color: #ffffff;
     }
 
     /*
-      CLERK LOGIN STYLING
-
-      Subtle blue gradient.
-      No blur-heavy effects.
-      No slow animations.
+      CLERK LOGIN CARD
+      Only the background/border are changed.
+      Clerk controls all text colours itself.
     */
 
     .cl-card {
       background:
         linear-gradient(
           145deg,
-          #0f172a 0%,
+          #0f172a,
           #111c36 55%,
-          #172554 100%
+          #172554
         ) !important;
 
       border:
@@ -281,31 +257,18 @@
     }
 
     /*
-      Hide Clerk's show/hide password button.
+      Remove Clerk show/hide password button.
     */
 
     .cl-formFieldInputShowPasswordButton {
       display: none !important;
     }
 
-    /*
-      Backup selectors for different Clerk versions.
-    */
-
-    button[aria-label*="Show password"],
-    button[aria-label*="Hide password"],
-    button[title*="Show password"],
-    button[title*="Hide password"] {
+    button[aria-label="Show password"],
+    button[aria-label="Hide password"],
+    button[title="Show password"],
+    button[title="Hide password"] {
       display: none !important;
-    }
-
-    /*
-      Keep Clerk text easy to read.
-    */
-
-    .cl-card,
-    .cl-card * {
-      color: inherit;
     }
 
     @media (max-width: 700px) {
@@ -343,8 +306,6 @@
 
     <div class="choices">
 
-      <!-- TEACHER -->
-
       <section class="choice">
 
         <div class="icon">
@@ -366,8 +327,6 @@
 
       </section>
 
-
-      <!-- STUDENT -->
 
       <section class="choice student">
 
@@ -392,14 +351,9 @@
 
     </div>
 
-    <div
-      id="status"
-      class="status">
-    </div>
+    <div id="status" class="status"></div>
 
-    <a
-      class="back"
-      href="index.html">
+    <a class="back" href="index.html">
       ← Back to Woodlands Academy
     </a>
 
@@ -410,10 +364,6 @@
 
     let clerkReady = false;
 
-
-    /*
-      LOAD CLERK
-    */
 
     window.addEventListener("load", async function () {
 
@@ -450,10 +400,6 @@
     });
 
 
-    /*
-      TEACHER LOGIN
-    */
-
     async function teacherLogin() {
 
       if (!clerkReady) {
@@ -467,8 +413,6 @@
       try {
 
         await Clerk.openSignIn();
-
-        hidePasswordButton();
 
       } catch (error) {
 
@@ -485,10 +429,6 @@
     }
 
 
-    /*
-      STUDENT LOGIN
-    */
-
     async function studentLogin() {
 
       if (!clerkReady) {
@@ -503,8 +443,6 @@
 
         await Clerk.openSignIn();
 
-        hidePasswordButton();
-
       } catch (error) {
 
         console.error(
@@ -518,98 +456,6 @@
       }
 
     }
-
-
-    /*
-      REMOVE PASSWORD BUTTON
-    */
-
-    function hidePasswordButton() {
-
-      const removeButtons = function () {
-
-        const buttons =
-          document.querySelectorAll("button");
-
-        buttons.forEach(function (button) {
-
-          const text =
-            (
-              button.getAttribute("aria-label") ||
-              button.getAttribute("title") ||
-              button.textContent ||
-              ""
-            ).toLowerCase();
-
-          if (
-            text.includes("show password") ||
-            text.includes("hide password")
-          ) {
-
-            button.style.display = "none";
-
-          }
-
-        });
-
-      };
-
-      removeButtons();
-
-      const observer =
-        new MutationObserver(removeButtons);
-
-      observer.observe(
-        document.body,
-        {
-          childList: true,
-          subtree: true
-        }
-      );
-
-      setTimeout(function () {
-
-        observer.disconnect();
-
-      }, 10000);
-
-    }
-
-
-    /*
-      BACK BUTTON
-    */
-
-    document.querySelectorAll("a").forEach(function (link) {
-
-      link.addEventListener("click", function (event) {
-
-        if (
-          link.hostname === window.location.hostname
-        ) {
-
-          event.preventDefault();
-
-          const destination =
-            link.href;
-
-          document.body.style.opacity = "0";
-
-          document.body.style.transform =
-            "translateY(-7px)";
-
-          setTimeout(function () {
-
-            window.location.href =
-              destination;
-
-          }, 400);
-
-        }
-
-      });
-
-    });
 
   </script>
 
