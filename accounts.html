@@ -6,21 +6,9 @@
 
   <title>Accounts — Woodlands Academy</title>
 
-  <!-- Clerk UI -->
-  <script
-    defer
-    crossorigin="anonymous"
-    src="https://funny-vervet-8500.clerk.accounts.dev/npm/@clerk/ui@1/dist/ui.browser.js"
-    type="text/javascript">
-  </script>
-
-  <!-- Clerk -->
-  <script
-    defer
-    crossorigin="anonymous"
-    data-clerk-publishable-key="pk_test_ZnVubnktdmVydmV0LTg1MDAuY2xlcmsuYWNjb3VudHMuZGV2JA"
-    src="https://funny-vervet-8500.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"
-    type="text/javascript">
+  <script defer crossorigin="anonymous"
+    data-clerk-publishable-key="YOUR_PUBLISHABLE_KEY"
+    src="https://funny-vervet-8500.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js">
   </script>
 
   <style>
@@ -37,33 +25,19 @@
     body {
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
-      color: #ffffff;
-
+      color: white;
       background:
-        radial-gradient(
-          circle at 15% 10%,
-          rgba(37, 99, 235, 0.20),
-          transparent 35%
-        ),
-        linear-gradient(
-          135deg,
-          #020617,
-          #0f172a 55%,
-          #111827
-        );
+        radial-gradient(circle at 15% 10%, rgba(37,99,235,.20), transparent 35%),
+        linear-gradient(135deg, #020617, #0f172a 55%, #111827);
 
       display: flex;
       align-items: center;
       justify-content: center;
-
       padding: 24px;
 
       opacity: 0;
       transform: translateY(7px);
-
-      transition:
-        opacity 400ms ease,
-        transform 400ms ease;
+      transition: opacity 400ms ease, transform 400ms ease;
     }
 
     body.loaded {
@@ -80,26 +54,19 @@
     .badge {
       width: 76px;
       height: 76px;
-
       margin: 0 auto 22px;
-
       border-radius: 22px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      background: linear-gradient(
-        135deg,
-        #2563eb,
-        #4f46e5
-      );
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
 
       font-size: 26px;
       font-weight: 800;
 
-      box-shadow:
-        0 18px 45px rgba(37, 99, 235, 0.25);
+      box-shadow: 0 18px 45px rgba(37,99,235,.25);
     }
 
     h1 {
@@ -124,22 +91,17 @@
       padding: 32px;
       text-align: left;
 
-      background: rgba(15, 23, 42, 0.94);
-
-      border: 1px solid rgba(148, 163, 184, 0.15);
-
+      background: rgba(15,23,42,.94);
+      border: 1px solid rgba(148,163,184,.15);
       border-radius: 24px;
 
-      transition:
-        transform 220ms ease,
-        border-color 220ms ease;
+      transition: transform 220ms ease,
+                  border-color 220ms ease;
     }
 
     .choice:hover {
       transform: translateY(-4px);
-
-      border-color:
-        rgba(59, 130, 246, 0.45);
+      border-color: rgba(59,130,246,.45);
     }
 
     .icon {
@@ -160,24 +122,20 @@
 
     .login-button {
       width: 100%;
-
       border: none;
       border-radius: 14px;
-
       padding: 14px 18px;
 
       background: #2563eb;
-
-      color: #ffffff;
+      color: white;
 
       font-size: 15px;
       font-weight: 700;
 
       cursor: pointer;
 
-      transition:
-        transform 180ms ease,
-        background 180ms ease;
+      transition: transform 180ms ease,
+                  background 180ms ease;
     }
 
     .login-button:hover {
@@ -196,48 +154,24 @@
     .status {
       min-height: 22px;
       margin-top: 20px;
-
       color: #f87171;
-
       font-size: 14px;
     }
 
     .back {
       display: inline-block;
-
       margin-top: 30px;
 
       color: #94a3b8;
-
       text-decoration: none;
-
       font-size: 14px;
-
-      transition: color 180ms ease;
     }
 
     .back:hover {
-      color: #ffffff;
-    }
-
-    /*
-      Remove Clerk's password visibility button.
-      This does not change Clerk's colours or text.
-    */
-
-    .cl-formFieldInputShowPasswordButton {
-      display: none !important;
-    }
-
-    button[aria-label="Show password"],
-    button[aria-label="Hide password"],
-    button[title="Show password"],
-    button[title="Hide password"] {
-      display: none !important;
+      color: white;
     }
 
     @media (max-width: 700px) {
-
       .choices {
         grid-template-columns: 1fr;
       }
@@ -271,8 +205,6 @@
 
     <div class="choices">
 
-      <!-- TEACHER -->
-
       <section class="choice">
 
         <div class="icon">
@@ -285,19 +217,18 @@
 
         <p>
           Access the Woodlands Academy teacher portal,
-          Woody AI tools, announcements, events and school information.
+          Woody AI tools, announcements, events and
+          school information.
         </p>
 
         <button
           class="login-button"
-          onclick="teacherLogin()">
+          onclick="login('teacher')">
           Teacher Login
         </button>
 
       </section>
 
-
-      <!-- STUDENT -->
 
       <section class="choice student">
 
@@ -311,12 +242,13 @@
 
         <p>
           Sign in to your student account and access
-          Woody, school information, announcements and events.
+          Woody, school information, announcements
+          and events.
         </p>
 
         <button
           class="login-button"
-          onclick="studentLogin()">
+          onclick="login('student')">
           Student Login
         </button>
 
@@ -324,14 +256,9 @@
 
     </div>
 
-    <div
-      id="status"
-      class="status">
-    </div>
+    <div id="status" class="status"></div>
 
-    <a
-      class="back"
-      href="index.html">
+    <a class="back" href="index.html">
       ← Back to Woodlands Academy
     </a>
 
@@ -342,37 +269,40 @@
 
     let clerkReady = false;
 
-
-    /*
-      LOAD CLERK
-    */
-
-    window.addEventListener("load", async function () {
+    window.addEventListener("load", async () => {
 
       document.body.classList.add("loaded");
 
       try {
 
         if (!window.Clerk) {
-          throw new Error("Clerk did not load.");
+          throw new Error("Clerk did not load");
         }
 
-        await Clerk.load({
-          ui: {
-            ClerkUI: window.__internal_ClerkUICtor
-          }
-        });
+        await Clerk.load();
 
         clerkReady = true;
 
-        console.log("Clerk loaded successfully.");
+        console.log("Clerk loaded");
+
+        // Already signed in?
+        if (Clerk.isSignedIn) {
+
+          const role =
+            Clerk.user?.publicMetadata?.role;
+
+          if (role === "teacher" || role === "admin") {
+            window.location.href = "teacher-dashboard.html";
+          }
+
+          else if (role === "student") {
+            window.location.href = "student-dashboard.html";
+          }
+        }
 
       } catch (error) {
 
-        console.error(
-          "Clerk loading error:",
-          error
-        );
+        console.error(error);
 
         document.getElementById("status").textContent =
           "Unable to load the account system.";
@@ -382,15 +312,14 @@
     });
 
 
-    /*
-      TEACHER LOGIN / SIGN UP
-    */
+    async function login(type) {
 
-    async function teacherLogin() {
+      const status =
+        document.getElementById("status");
 
       if (!clerkReady) {
 
-        document.getElementById("status").textContent =
+        status.textContent =
           "Account system is still loading. Please try again.";
 
         return;
@@ -398,66 +327,76 @@
 
       try {
 
-        await Clerk.openSignIn({
+        status.textContent = "";
 
-          signInForceRedirectUrl:
-            "/teacher-dashboard.html",
+        // Remember which portal was selected.
+        sessionStorage.setItem(
+          "woodlands_login_type",
+          type
+        );
 
-          signUpForceRedirectUrl:
-            "/teacher-dashboard.html"
+        // Use Clerk's normal sign-in window.
+        await Clerk.openSignIn();
 
-        });
+        // Check the account after sign-in.
+        if (!Clerk.isSignedIn) {
+          return;
+        }
+
+        const role =
+          Clerk.user?.publicMetadata?.role;
+
+        /*
+          Server-assigned Clerk role takes priority.
+        */
+
+        if (role === "teacher" || role === "admin") {
+
+          window.location.href =
+            "teacher-dashboard.html";
+
+          return;
+        }
+
+        if (role === "student") {
+
+          window.location.href =
+            "student-dashboard.html";
+
+          return;
+        }
+
+        /*
+          If a role hasn't been assigned yet,
+          use the selected portal temporarily.
+        */
+
+        const selected =
+          sessionStorage.getItem(
+            "woodlands_login_type"
+          );
+
+        if (selected === "teacher") {
+
+          window.location.href =
+            "teacher-dashboard.html";
+
+        } else {
+
+          window.location.href =
+            "student-dashboard.html";
+
+        }
 
       } catch (error) {
 
         console.error(
-          "Teacher sign-in error:",
+          "Clerk sign-in error:",
           error
         );
 
-        document.getElementById("status").textContent =
-          "Unable to open teacher sign in.";
-
-      }
-
-    }
-
-
-    /*
-      STUDENT LOGIN / SIGN UP
-    */
-
-    async function studentLogin() {
-
-      if (!clerkReady) {
-
-        document.getElementById("status").textContent =
-          "Account system is still loading. Please try again.";
-
-        return;
-      }
-
-      try {
-
-        await Clerk.openSignIn({
-
-          signInForceRedirectUrl:
-            "/student-dashboard.html",
-
-          signUpForceRedirectUrl:
-            "/student-dashboard.html"
-
-        });
-
-      } catch (error) {
-
-        console.error(
-          "Student sign-in error:",
-          error
-        );
-
-        document.getElementById("status").textContent =
-          "Unable to open student sign in.";
+        status.textContent =
+          "Unable to open sign in. Please try again.";
 
       }
 
